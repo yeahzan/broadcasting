@@ -1,0 +1,140 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <script type="text/javascript" src="ui/jquery-1.9.0.js"></script>
+    <style type="text/css">
+    *{
+      margin: 0px;
+      padding: 0px;
+      list-style-type: none;
+    }
+    body{
+      background: #DBDBDB;
+    }
+    .warper{
+      width:980px;
+      margin: 0 auto;
+      height: 450px;
+      margin-top: 100px;
+      position: relative;
+      overflow: hidden;
+      border-radius: 8px;
+    }
+    .gk{
+      position: absolute;
+      left: 0px;
+      top: 0px;
+      z-index: 2;
+      opacity: 0;
+    }
+    .gk:first-child{
+      opacity: 1;
+    }
+    img{
+      width: 100%;
+      height: 100%;
+      border: 0 none;
+    }
+    .warper a.pre,.warper a.next{
+      position: absolute;
+      display: block;
+      width: 50px;
+      height: 50px;
+      background: url("ui/buttons.png");
+    }
+    .warper a.pre{
+      left: 0px;
+      top: 100px;
+      background-position:  0px 50px;
+      z-index: 99;
+    }
+    .warper a.next{
+      right: 0px;
+      top: 100px;
+      background-position: 0px 0px;
+      z-index: 99;
+    }
+    ul{
+      position: absolute;
+      bottom: 0px;
+      z-index: 9999;
+    }
+    li{
+      float: left;
+      margin-right: 14px;
+      padding: 10px;
+      background: yellow;
+      cursor: pointer;
+    }
+    .gk:first-child{
+    }
+    </style>
+  <script type="text/javascript">
+  $(function() {
+    var $warper = $(".warper"),
+      $img = $warper.find(".gk");
+      $lis = $warper.find("li");
+      $ul = $warper.find("ul");
+      var index = 0;
+      var old = 0;
+      var tempHeight =$img.eq(0).height();
+      var tempWidth = $img.eq(0).width();
+      $lis.on("click",function() {
+        index = $(this).index();
+        $img.eq(old)
+          .animate({
+            height : tempHeight * 1.5,
+            width : tempWidth * 1.5,
+            left :"+=" + tempWidth * -0.25,
+            top :"+=" + tempHeight * -0.25,
+            opacity : 0
+          }, 500,function() {
+            $(this).css({
+              height : tempHeight,
+              width : tempWidth,
+              left :"0px",
+              top :"0px"
+            });
+          })
+          .end()
+          .eq(index)
+          .animate({"opacity":1},500,function (){
+            $(this).css("z-index",2);
+          });
+        old = index;
+      });
+
+      $("a.pre").on("click",function() {
+        index = ++index > $lis.length - 1 ? 0 : index;
+        $lis.eq(index).click();
+      });
+
+      $("a.next").on("click",function() {
+        index = --index < 0 ? $lis.length - 1 : index;
+        $lis.eq(index).click();
+      });
+  });
+  </script>
+  </head>
+  <body>
+    <div class="warper">
+      <div class="gk">
+        <a href="http://www.yeahzan.com">
+          <img  src="ui/poster_1.jpg"/>
+        </a>
+      </div>
+      <div class="gk">
+        <a href="http://www.yeahzan.com">
+          <img  src="ui/poster_2.jpg"/>
+        </a>
+      </div>
+      <a href="javascript:void(0);" class="pre"></a>
+      <a href="javascript:void(0);" class="next"></a>
+      <ul>
+        <li>1</li>
+        <li>2</li>
+      </ul>
+    </div>
+  </body>
+</html>
